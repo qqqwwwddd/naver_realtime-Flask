@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>네이버 뉴스 수집 데이터 모니터링</h1>
+    <br>
+    <div class="container m_box m_tm_20">
+
+      {% for news in newsList %}
+        <!-- 신문 카드 시작 -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{news.title}}</h4>
+                <p class="card-text">{{news.createdAt}}</p>
+                <p class="card-text">{{news.company}}</p>
+            </div>
+        </div>
+        <!— 신문 카드 끝 —>
+        {% endfor %}
+
+    </div>
+
+<script>
+    function myPolling(){
+        location.reload();
+    }
+
+    setInterval(myPolling, 1000*60);
+</script>
+</body>
+</html>
