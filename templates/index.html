@@ -5,33 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <title>Document</title>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .m_box {
+            display: grid;
+            grid-template-columns: 0.5fr 2fr 1fr;
+            grid-gap: 10px;
+        }
+
+        .m_tm_20 {
+            margin-top: 20px;
+        }
+    </style>
+  
+    <title>네이버 뉴스 수집 데이터 모니터링</title>
 </head>
 <body>
     <h1>네이버 뉴스 수집 데이터 모니터링</h1>
     <br>
-    <div class="container m_box m_tm_20">
+    <div id="news-box" class="container m_box m_tm_20">
 
-      {% for news in newsList %}
-        <!-- 신문 카드 시작 -->
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">{{news.title}}</h4>
-                <p class="card-text">{{news.createdAt}}</p>
-                <p class="card-text">{{news.company}}</p>
-            </div>
-        </div>
-        <!— 신문 카드 끝 —>
-        {% endfor %}
-
-    </div>
-
+    
 <script>
-    function myPolling(){
-        location.reload();
-    }
+    const eventSource = new EventSource("http://localhost:8080/news");
+    
+    eventSource.onmessage = (event) => {
+      
+        naverNews = JSON.parse(event.data);
+        console.log(naverNews);
 
-    setInterval(myPolling, 1000*60);
+        $("#news-box").append("<h3>"+naverNews.company+"</h3>");
+        $("#news-box").append("<h3>"+naverNews.title+"</h3>");
+        $("#news-box").append("<h3>"+naverNews.createdAt+"</h3>");
+}
 </script>
+</div>
 </body>
 </html>
